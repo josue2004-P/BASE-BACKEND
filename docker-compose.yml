@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   db_bp:
     image: mysql:8.0
@@ -10,3 +11,22 @@ services:
       - '3307:3306'
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - bp_net
+
+  api_bp:
+    build: .
+    container_name: api_bp
+    ports:
+      - '3000:3000'
+    depends_on:
+      - db_bp
+    environment:
+      DATABASE_URL: "mysql://root:root@db_bp:3306/test_db"
+    networks:
+      - bp_net
+    volumes:
+      - .:/app
+
+networks:
+  bp_net:
