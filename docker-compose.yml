@@ -17,16 +17,20 @@ services:
   api_bp:
     build: .
     container_name: api_bp
-    ports:
-      - '3000:3000'
+    expose:
+      - '3000'  # Visibilidad solo para otros contenedores
     depends_on:
       - db_bp
     environment:
       DATABASE_URL: "mysql://root:root@db_bp:3306/test_db"
+      SECRET_JWT_SEED: "PRUEBA1"
     networks:
       - bp_net
+      - proxy
     volumes:
       - .:/app
 
 networks:
   bp_net:
+  proxy:
+    external: true
