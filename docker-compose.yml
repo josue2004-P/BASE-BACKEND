@@ -18,7 +18,7 @@ services:
     build: .
     container_name: api_bp
     expose:
-      - '3000'  # Visibilidad solo para otros contenedores
+      - '3000'
     depends_on:
       - db_bp
     environment:
@@ -27,8 +27,6 @@ services:
     networks:
       - bp_net
       - proxy
-    volumes:
-      - .:/app
 
 networks:
   bp_net:
